@@ -81,10 +81,10 @@ groupsReceive = function(user_id,amount,group)
     sendLog("**ID:** "..user_id.." \n **QUANTIDADE:** "..amount.." \n **GRUPO:** "..group,"RETIROU CAIXA")
 end
 
-AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
+AddEventHandler("Connect",function(user_id,source,first_spawn)
     TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#4ba84b"})
 end)
-AddEventHandler("vRP:playerLeave",function(user_id,source,first_spawn)
+AddEventHandler("Disconnect",function(user_id,source,first_spawn)
     TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#ce3737"})
 end)
 
