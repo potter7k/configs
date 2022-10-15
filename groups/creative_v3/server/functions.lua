@@ -57,17 +57,10 @@ end
 addGroupMember = function(source,target_id,group,groupName)
     if target_id then
         if not vRP.hasPermission(target_id,tostring(group)) then
-            local nplayer = userSource(target_id)
-            if not nplayer then
-                return "O player precisa estar online para ser setado."
-            end
-            if vRP.insertPermission(nplayer,tostring(group)) then
-                vRP.execute("vRP/add_group",{ user_id = target_id, permiss = tostring(group) })
-                sendLog("**ID:** "..userId(source).." \n **MEMBRO:** "..target_id.." \n **GRUPO:** "..group,"ADICIONOU MEMBRO")
-                return true
-            else
-                return "O player ja esta com outro set do mesmo grupo."
-            end
+            vRP.insertPermission(target_id,tostring(group))
+            vRP.execute("vRP/add_group",{ user_id = target_id, permiss = tostring(group) })
+            sendLog("**ID:** "..userId(source).." \n **MEMBRO:** "..target_id.." \n **GRUPO:** "..group,"ADICIONOU MEMBRO")
+            return true
         end
     end
     return false
