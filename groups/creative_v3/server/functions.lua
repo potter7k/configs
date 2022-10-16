@@ -10,7 +10,14 @@ userIdentity = function(user_id)
 end
 
 prepare = vRP.prepare
-query = vRP.query
+query = function(name,table)
+    local resp = vRP.query(name,table)
+    if resp and type(resp) == "table" then
+        return resp
+    else
+        return nil
+    end
+end
 execute = vRP.execute
 
 groupsPermission = function(source)
@@ -18,6 +25,7 @@ groupsPermission = function(source)
 end
 
 groupMembers = function(members,group,leader)
+    Wait(5000) -- IMPORTANTE PARA EVITAR SOBRECARGA! Caso queira reduzir/aumentar o tempo para testes, sinta-se livre.
     if group then
         local groups = query("dk_groups/get_groups", {permiss = group})
         if groups and type(groups) == "table" and groups[1] then

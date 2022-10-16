@@ -10,7 +10,14 @@ userIdentity = function(user_id)
 end
 
 prepare = vRP.prepare
-query = vRP.query
+query = function(name,table)
+    local resp = vRP.query(name,table)
+    if resp and type(resp) == "table" then
+        return resp
+    else
+        return nil
+    end
+end
 execute = vRP.execute
 
 groupsPermission = function(source)
@@ -18,6 +25,7 @@ groupsPermission = function(source)
 end
 
 groupMembers = function(members,group,leader)
+    Wait(5000) -- IMPORTANTE PARA EVITAR SOBRECARGA! Caso queira reduzir/aumentar o tempo para testes, sinta-se livre.
     if group then
         local groups = query("dk_groups/get_groups", {group = '%"'..group..'"%'})
         if groups and type(groups) == "table" and groups[1] then
@@ -47,12 +55,16 @@ end
 
 memberInformation = function(user_id)
     local identity = userIdentity(user_id)
-    local on = "#ce3737"
-    local nsource = userSource(user_id)
-    if nsource then
-        on = "#4ba84b"
+    if identity and type(identity) == "table" then
+        local on = "#ce3737"
+        local nsource = userSource(user_id)
+        if nsource then
+            on = "#4ba84b"
+        end
+        return {name = (identity.name or " ").." "..(identity.name2 or identity.firstname or " "), phone = identity.phone or " ", online = on, id = user_id}
+    else
+        return {name = " ", phone = " ", online = "#ce3737", id = user_id}
     end
-    return {name = (identity.name or " ").." "..(identity.name2 or identity.firstname or " "), phone = identity.phone or " ", online = on, id = user_id}
 end
 
 addGroupMember = function(source,target_id,group,groupName)

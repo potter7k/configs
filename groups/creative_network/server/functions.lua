@@ -10,7 +10,14 @@ userIdentity = function(user_id)
 end
 
 prepare = vRP.Prepare
-query = vRP.Query
+query = function(name,table)
+    local resp = vRP.Query(name,table)
+    if resp and type(resp) == "table" then
+        return resp
+    else
+        return nil
+    end
+end
 execute = vRP.Query
 
 groupsPermission = function(source)
@@ -18,6 +25,7 @@ groupsPermission = function(source)
 end
 
 groupMembers = function(members,group,leader)
+    Wait(5000) -- IMPORTANTE PARA EVITAR SOBRECARGA! Caso queira reduzir/aumentar o tempo para testes, sinta-se livre.
     if group then
         local gmembers = vRP.DataGroups(group)
         if gmembers then
