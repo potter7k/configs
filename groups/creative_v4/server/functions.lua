@@ -48,7 +48,7 @@ checkInGroup = function(user_id,group)
         else
             data = vRP.userData(user_id,"Datatable")
         end
-        return data["groups"][group]
+        return data["permission"][group]
     end
 end
 
