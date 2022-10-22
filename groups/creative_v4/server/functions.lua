@@ -25,7 +25,7 @@ groupsPermission = function(source)
 end
 
 groupMembers = function(members,group,leader)
-    Wait(5000) -- IMPORTANTE PARA EVITAR SOBRECARGA! Caso queira reduzir/aumentar o tempo para testes, sinta-se livre.
+    Wait(3000) -- IMPORTANTE PARA EVITAR SOBRECARGA! Caso queira reduzir/aumentar o tempo para testes, sinta-se livre.
     if group then
         local groups = query("dk_groups/get_groups", {group = '%"'..group..'"%'})
         if groups and type(groups) == "table" and groups[1] then
@@ -39,14 +39,23 @@ groupMembers = function(members,group,leader)
         return members
     end
 end
-
+local tempData = {}
 checkInGroup = function(user_id,group)
     if user_id and group then
         local data
-        if userSource(user_id) then
-            data = vRP.getDatatable(user_id)
+        if not tempData[user_id] then
+            if userSource(user_id) then
+                data = vRP.getDatatable(user_id)
+            else
+                data = vRP.userData(user_id,"Datatable")
+            end
+            tempData[user_id] = data
+            CreateThread(function()
+                Wait(5000)
+                tempData[user_id] = nil
+            end)
         else
-            data = vRP.userData(user_id,"Datatable")
+            data = tempData[user_id]
         end
         return data["permission"][group]
     end
@@ -55,14 +64,9 @@ end
 memberInformation = function(user_id)
     local identity = userIdentity(user_id)
     if identity and type(identity) == "table" then
-        local on = "#ce3737"
-        local nsource = userSource(user_id)
-        if nsource then
-            on = "#4ba84b"
-        end
-        return {name = (identity.name or " ").." "..(identity.name2 or identity.firstname or " "), phone = identity.phone or " ", online = on, id = user_id}
+        return {name = (identity.name or " ").." "..(identity.name2 or identity.firstname or " "), phone = identity.phone or " ", online = userSource(user_id), id = user_id}
     else
-        return {name = " ", phone = " ", online = "#ce3737", id = user_id}
+        return {name = " ", phone = " ", online = false, id = user_id}
     end
 end
 
@@ -102,7 +106,7 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
     TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#4ba84b"})
 end)
 AddEventHandler("vRP:playerLeave",function(user_id,source,first_spawn)
-    TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#ce3737"})
+    TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#ce3737",lastLogin = os.time()})
 end)
 
 function sendLog(message,title)

@@ -25,7 +25,7 @@ groupsPermission = function(source)
 end
 
 groupMembers = function(members,group,leader)
-    Wait(5000) -- IMPORTANTE PARA EVITAR SOBRECARGA! Caso queira reduzir/aumentar o tempo para testes, sinta-se livre.
+    Wait(3000) -- IMPORTANTE PARA EVITAR SOBRECARGA! Caso queira reduzir/aumentar o tempo para testes, sinta-se livre.
     if group then
         local gmembers = vRP.DataGroups(group)
         if gmembers then
@@ -41,6 +41,7 @@ end
 
 checkInGroup = function(user_id,group)
     if user_id and group then
+        Wait(200)
         local gData = vRP.DataGroups(group)
         if gData and gData[tostring(user_id)] then
             return true
@@ -52,12 +53,11 @@ end
 
 memberInformation = function(user_id)
     local identity = userIdentity(user_id)
-    local on = "#ce3737"
-    local nsource = userSource(user_id)
-    if nsource then
-        on = "#4ba84b"
+    if identity and type(identity) == "table" then
+        return {name = (identity.name or " ").." "..(identity.name2 or identity.firstname or " "), phone = identity.phone or " ", online = userSource(user_id), id = user_id}
+    else
+        return {name = " ", phone = " ", online = false, id = user_id}
     end
-    return {name = (identity.name or " ").." "..(identity.name2 or identity.firstname or " "), phone = identity.phone or " ", online = on, id = user_id}
 end
 
 addGroupMember = function(source,target_id,group,groupName)
@@ -93,7 +93,7 @@ AddEventHandler("Connect",function(user_id,source,first_spawn)
     TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#4ba84b"})
 end)
 AddEventHandler("Disconnect",function(user_id,source,first_spawn)
-    TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#ce3737"})
+    TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#ce3737",lastLogin = os.time()})
 end)
 
 function sendLog(message,title)
