@@ -5,6 +5,9 @@ groupsList = {
         once = true, -- Para poder ter apenas 1 permissão por player
         blockLeader = false, -- Para não permitir a remoção de líderes
         selfRemove = false, -- Para poder remover a si mesmo.
+        -- moneyRanking = 1, -- Para ter um ranking com os grupos q possuem mais dinheiro em caixa, o número 1 indica a categoria 1, você pode separar por categorias.
+        maxMembers = 20, -- Máximo de membros que podem ser contratados no grupo, caso não queira limite basta colocar maxMembers = nil,
+        blackList = {id = 1, days = 5}, -- Sistema de blacklist, assim que o player é removido do grupo, ele só pode ser adicionado em outro grupo **DO MESMO ID** depois do tempo indicado em "days", no caso em coloquei 5 dias.
 
         leader = { -- Permissões dos líderes do grupo.
         {index = "Admin"},
