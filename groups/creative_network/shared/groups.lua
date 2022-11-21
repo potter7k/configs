@@ -10,15 +10,15 @@ groupsList = {
         blackList = {id = 1, days = 5}, -- Sistema de blacklist, assim que o player é removido do grupo, ele só pode ser adicionado em outro grupo **DO MESMO ID** depois do tempo indicado em "days", no caso em coloquei 5 dias.
 
         leader = { -- Permissões dos líderes do grupo.
-        {index = "Admin"},
+        {index = "Admin//1"},
         },
         addPermissions = { -- Permissões que os líderes terão acesso para adicionar aos membros.
-        {index = "Admin", name = "Lider", customHook = {rolesWebhookIlegal}, customRoles = {"1008134296990650428","954241427745947680"}}, -- customHook é um webhook custom para ser enviado / customRoles é um cargo custom para ser adicionado no discord, no exemplo coloquei o cargo de membro e lider no discord
-        {index = "Suporte", name = "Membro", customHook = {rolesWebhookIlegal}, customRoles = {"954241427745947680"}},
+        {index = "Admin//1", name = "Lider", customHook = {rolesWebhookIlegal}, customRoles = {"1008134296990650428","954241427745947680"}}, -- customHook é um webhook custom para ser enviado / customRoles é um cargo custom para ser adicionado no discord, no exemplo coloquei o cargo de membro e lider no discord
+        {index = "Admin//2", name = "Membro", customHook = {rolesWebhookIlegal}, customRoles = {"954241427745947680"}},
         },
         removePermissions = {  -- Permissões que serão retiradas ao remover o membro do grupo.
-        {index = "Admin"},
-        {index = "Suporte"},
+        {index = "Admin//1"},
+        {index = "Admin//2"},
         },
         extraAction = { -- Ações extras (opcionais)
             request = function(source,target_id,groupName) -- Enviar request perguntando se o membro deseja ser adicionado ao grupo.
@@ -47,22 +47,22 @@ groupsList = {
         selfRemove = false, -- Para poder remover a si mesmo.
 
         leader = { -- Permissões dos líderes do grupo.
-            {index = "Chief"},
-            {index = "waitChief"},
+            {index = "Police//5"},
+            -- {index = "waitChief"},
         },
         addPermissions = { -- Permissões que os líderes terão acesso para adicionar aos membros.            
-            {index = "waitChief", name = "Chief", customRoles = {"938406834228822076"}},
-            {index = "waitCadet", name = "Cadet"}, -- Esses são os grupos em "paisana", no caso da policia é necessário adicionar, para que o player entre em paisana, e a permissão seja removida também. 
+            -- {index = "waitChief", name = "Chief", customRoles = {"938406834228822076"}},
+            -- {index = "waitCadet", name = "Cadet"}, -- Esses são os grupos em "paisana", no caso da policia é necessário adicionar, para que o player entre em paisana, e a permissão seja removida também. 
         
-            {index = "Chief", name = "Chief", hidden = true}, -- Com o hidden = true, a opção não aparecerá no painel
-            {index = "Cadet", name = "Cadet", hidden = true},
+            {index = "Police//5", name = "Chief", hidden = true}, -- Com o hidden = true, a opção não aparecerá no painel
+            {index = "Police//1", name = "Cadet", hidden = true},
         },
         removePermissions = {  -- Permissões que serão retiradas ao remover o membro do grupo.
-            {index = "Chief"},
-            {index = "Cadet"},
+            {index = "Police//5"},
+            {index = "Police//1"},
             
-            {index = "waitChief"},
-            {index = "waitCadet"},
+            -- {index = "waitChief"},
+            -- {index = "waitCadet"},
         },
         inService = function() -- Mostrar os membros em serviço
             return groupsService("Police")
