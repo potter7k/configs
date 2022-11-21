@@ -17,7 +17,7 @@ groupsList = {
         {index = "Suporte", name = "Membro", customHook = {rolesWebhookIlegal}, customRoles = {"954241427745947680"}},
         },
         removePermissions = {  -- Permissões que serão retiradas ao remover o membro do grupo.
-        {index = "Admin",},
+        {index = "Admin"},
         {index = "Suporte"},
         },
         extraAction = { -- Ações extras (opcionais)

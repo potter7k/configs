@@ -25,7 +25,7 @@ groupsPermission = function(source)
 end
 
 groupMembers = function(members,group,leader)
-    Wait(3000) -- IMPORTANTE PARA EVITAR SOBRECARGA! Caso queira reduzir/aumentar o tempo para testes, sinta-se livre.
+    Wait(1000) -- IMPORTANTE PARA EVITAR SOBRECARGA! Caso queira reduzir/aumentar o tempo para testes, sinta-se livre.
     if group then
         local groups = query("dk_groups/get_groups", {group = '%"'..group..'"%'})
         if groups and type(groups) == "table" and groups[1] then
@@ -44,7 +44,7 @@ end
 local tempData = {}
 checkInGroup = function(user_id,group)
     if user_id and group then
-        local data
+        local data = {}
         if not tempData[user_id] then
             if userSource(user_id) then
                 data = vRP.getDatatable(user_id)
@@ -59,7 +59,10 @@ checkInGroup = function(user_id,group)
         else
             data = tempData[user_id]
         end
-        return data["permission"][group]
+        if not data["perm"] then
+            data["perm"] = {}
+        end
+        return data["perm"][group]
     end
 end
 

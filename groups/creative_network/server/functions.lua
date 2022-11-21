@@ -24,9 +24,27 @@ groupsPermission = function(source)
     return true
 end
 
+local splitString = function(str,symbol)
+	local Number = 1
+	local tableResult = {}
+
+	if not symbol then
+		symbol = "-"
+	end
+
+	for str in string.gmatch(str,"([^"..symbol.."]+)") do
+		tableResult[Number] = str
+		Number = Number + 1
+	end
+
+	return tableResult
+end
+
 groupMembers = function(members,group,leader)
     Wait(3000) -- IMPORTANTE PARA EVITAR SOBRECARGA! Caso queira reduzir/aumentar o tempo para testes, sinta-se livre.
     if group then
+        local splited = splitString(group,"//")
+        group = splited[1]
         local gmembers = vRP.DataGroups(group)
         if gmembers then
             for id,_ in pairs(gmembers) do
@@ -42,6 +60,8 @@ end
 checkInGroup = function(user_id,group)
     if user_id and group then
         Wait(200)
+        local splited = splitString(group,"//")
+        group = splited[1]
         local gData = vRP.DataGroups(group)
         if gData and gData[tostring(user_id)] then
             return true
@@ -62,7 +82,8 @@ end
 
 addGroupMember = function(source,target_id,group,groupName)
     if target_id then
-        vRP.SetPermission(target_id,tostring(group))
+        local splited = splitString(group,"//")
+        vRP.SetPermission(target_id,splited[1],splited[2])
         sendLog("**ID:** "..userId(source).." \n **MEMBRO:** "..target_id.." \n **GRUPO:** "..group,"ADICIONOU MEMBRO")
         return true
     end
@@ -71,7 +92,8 @@ end
 
 removeGroupMember = function(source,target_id,group,groupName)
     if target_id then
-        vRP.RemovePermission(target_id,tostring(group))
+        local splited = splitString(group,"//")
+        vRP.RemovePermission(target_id,splited[1])
     end
     sendLog("**ID:** "..userId(source).." \n **MEMBRO:** "..target_id.." \n **GRUPO:** "..group,"REMOVEU MEMBRO")
 end
@@ -90,10 +112,10 @@ groupsReceive = function(user_id,amount,group)
 end
 
 AddEventHandler("Connect",function(user_id,source,first_spawn)
-    TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#4ba84b"})
+    TriggerEvent("dk_groups/sendAction","update",user_id,{online = true})
 end)
 AddEventHandler("Disconnect",function(user_id,source,first_spawn)
-    TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#ce3737",lastLogin = os.time()})
+    TriggerEvent("dk_groups/sendAction","update",user_id,{online = false,lastLogin = os.time()})
 end)
 
 function sendLog(message,title)
