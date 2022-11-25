@@ -98,10 +98,10 @@ groupsReceive = function(user_id,amount,group)
 end
 
 AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
-    TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#4ba84b"})
+    TriggerEvent("dk_groups/sendAction","update",user_id,{online = true})
 end)
 AddEventHandler("vRP:playerLeave",function(user_id,source,first_spawn)
-    TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#ce3737"})
+    TriggerEvent("dk_groups/sendAction","update",user_id,{online = false})
 end)
 
 function sendLog(message,title)

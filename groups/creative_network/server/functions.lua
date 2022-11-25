@@ -44,12 +44,13 @@ groupMembers = function(members,group,leader)
     Wait(3000) -- IMPORTANTE PARA EVITAR SOBRECARGA! Caso queira reduzir/aumentar o tempo para testes, sinta-se livre.
     if group then
         local splited = splitString(group,"//")
-        group = splited[1]
-        local gmembers = vRP.DataGroups(group)
-        if gmembers then
-            for id,_ in pairs(gmembers) do
-                if not members[tonumber(id)] then
-                    members[tonumber(id)] = {id = tonumber(id), leader = leader}
+        if splited and splited[1] and splited[2] then
+            local gmembers = vRP.DataGroups(splited[1])
+            if gmembers then
+                for id,num in pairs(gmembers) do
+                    if id and not members[tonumber(id)] and tostring(num) == splited[2] then
+                        members[tonumber(id)] = {id = tonumber(id), leader = leader}
+                    end
                 end
             end
         end
@@ -61,14 +62,14 @@ checkInGroup = function(user_id,group)
     if user_id and group then
         Wait(200)
         local splited = splitString(group,"//")
-        group = splited[1]
-        local gData = vRP.DataGroups(group)
-        if gData and gData[tostring(user_id)] then
-            return true
-        else
-            return false
+        if splited and splited[1] and splited[2] then
+            local gData = vRP.DataGroups(splited[1])
+            if gData and gData[tostring(user_id)] and tostring(gData[tostring(user_id)]) == splited[2] then
+                return true
+            end
         end
     end
+    return false
 end
 
 memberInformation = function(user_id)

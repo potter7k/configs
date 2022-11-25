@@ -13,8 +13,8 @@ groupsList = {
         {index = "Admin"},
         },
         addPermissions = { -- Permissões que os líderes terão acesso para adicionar aos membros.
-        {index = "Admin", name = "Lider", customHook = {rolesWebhookIlegal}, customRoles = {"1008134296990650428","954241427745947680"}}, -- customHook é um webhook custom para ser enviado / customRoles é um cargo custom para ser adicionado no discord, no exemplo coloquei o cargo de membro e lider no discord
-        {index = "Suporte", name = "Membro", customHook = {rolesWebhookIlegal}, customRoles = {"954241427745947680"}},
+        {index = "Admin", name = "Admin", customHook = {rolesWebhookIlegal}, customRoles = {"1008134296990650428","954241427745947680"}}, -- customHook é um webhook custom para ser enviado / customRoles é um cargo custom para ser adicionado no discord, no exemplo coloquei o cargo de membro e lider no discord
+        {index = "Suporte", name = "Suporte", customHook = {rolesWebhookIlegal}, customRoles = {"954241427745947680"}},
         },
         removePermissions = {  -- Permissões que serão retiradas ao remover o membro do grupo.
         {index = "Admin",},

@@ -108,10 +108,10 @@ groupsReceive = function(user_id,amount,group)
 end
 
 AddEventHandler("playerConnect",function(user_id,source,first_spawn)
-    TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#4ba84b"})
+    TriggerEvent("dk_groups/sendAction","update",user_id,{online = true})
 end)
 AddEventHandler("playerDisconnect",function(user_id,source,first_spawn)
-    TriggerEvent("dk_groups/sendAction","update",user_id,{online = "#ce3737",lastLogin = os.time()})
+    TriggerEvent("dk_groups/sendAction","update",user_id,{online = false,lastLogin = os.time()})
 end)
 
 function sendLog(message,title)
