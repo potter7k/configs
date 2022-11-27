@@ -18,6 +18,7 @@ groupsPermission = function(source)
 end
 
 groupMembers = function(members,group,leader)
+    Wait(500)
     if group then
         local groups = query("dk_groups/get_groups", {group = '%"'..group..'"%'})
         if groups and type(groups) == "table" and groups[1] then
@@ -27,7 +28,6 @@ groupMembers = function(members,group,leader)
                     members[tonumber(v.user_id)] = {id = v.user_id, leader = leader}
                 end
             end
-            Wait(500)
         end
         return members
     end
@@ -101,7 +101,7 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
     TriggerEvent("dk_groups/sendAction","update",user_id,{online = true})
 end)
 AddEventHandler("vRP:playerLeave",function(user_id,source,first_spawn)
-    TriggerEvent("dk_groups/sendAction","update",user_id,{online = false})
+    TriggerEvent("dk_groups/sendAction","update",user_id,{online = false,lastLogin = os.time()})
 end)
 
 function sendLog(message,title)
