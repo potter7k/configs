@@ -1,6 +1,10 @@
 groupsService = function(permission)
+    local inService = (vRP.numPermission(permission))
+    if not inService then
+        return {}
+    end
     local members = {}
-    for _,v in pairs((vRP.numPermission(permission) or vRP.getUsersByPermission(permission))) do
+    for _,v in pairs(inService) do
         table.insert(members,v)
     end
     return members
