@@ -1,5 +1,5 @@
 groupsList = {
-    ["Owner"] = {
+    ["Staff"] = {
         name = "Staff", -- Nome do grupo.
         image = "", -- Imagem do grupo.
         once = true, -- Para poder ter apenas 1 permissão por player
@@ -10,15 +10,15 @@ groupsList = {
         blackList = {id = 1, days = 5}, -- Sistema de blacklist, assim que o player é removido do grupo, ele só pode ser adicionado em outro grupo **DO MESMO ID** depois do tempo indicado em "days", no caso em coloquei 5 dias.
 
         leader = { -- Permissões dos líderes do grupo.
-        {index = "Admin"},
+            {index = "Admin"},
         },
         addPermissions = { -- Permissões que os líderes terão acesso para adicionar aos membros.
-        {index = "Admin", name = "Lider", customHook = {rolesWebhookIlegal}, customRoles = {"1008134296990650428","954241427745947680"}}, -- customHook é um webhook custom para ser enviado / customRoles é um cargo custom para ser adicionado no discord, no exemplo coloquei o cargo de membro e lider no discord
-        {index = "Suporte", name = "Membro", customHook = {rolesWebhookIlegal}, customRoles = {"954241427745947680"}},
+            {index = "Admin", name = "Lider", customHook = {rolesWebhookIlegal}, customRoles = {"1008134296990650428","954241427745947680"}}, -- customHook é um webhook custom para ser enviado / customRoles é um cargo custom para ser adicionado no discord, no exemplo coloquei o cargo de membro e lider no discord
+            {index = "Suporte", name = "Membro", customHook = {rolesWebhookIlegal}, customRoles = {"954241427745947680"}},
         },
         removePermissions = {  -- Permissões que serão retiradas ao remover o membro do grupo.
-        {index = "Admin",},
-        {index = "Suporte"},
+            {index = "Admin",},
+            {index = "Suporte"},
         },
         extraAction = { -- Ações extras (opcionais)
             request = function(source,target_id,groupName) -- Enviar request perguntando se o membro deseja ser adicionado ao grupo.
@@ -30,12 +30,6 @@ groupsList = {
                     return false
                 end
             end,
-            -- onAdd = function(source,target,group) -- Ação extra ao adicionar o membro no grupo
-            
-            -- end,
-            -- onRemove = function(source,target,group) -- Ação extra ao removar o membro do grupo
-                
-            -- end,
         },
     },
     
@@ -51,7 +45,7 @@ groupsList = {
             {index = "waitChief"},
         },
         addPermissions = { -- Permissões que os líderes terão acesso para adicionar aos membros.            
-            {index = "waitChief", name = "Chief", customRoles = {"938406834228822076"}},
+            {index = "waitChief", name = "Chief"},
             {index = "waitCadet", name = "Cadet"}, -- Esses são os grupos em "paisana", no caso da policia é necessário adicionar, para que o player entre em paisana, e a permissão seja removida também. 
         
             {index = "Chief", name = "Chief", hidden = true}, -- Com o hidden = true, a opção não aparecerá no painel
@@ -67,7 +61,6 @@ groupsList = {
         inService = function() -- Mostrar os membros em serviço
             return groupsService("Police")
         end,
-        discordRole = "910539664996302859", -- Cargo que será adicionado por padrão.
         extraAction = { -- Ações extras (opcionais)
             request = function(source,target_id,groupName) -- Enviar request perguntando se o membro deseja ser adicionado ao grupo.
                 TriggerClientEvent("Notify",source,"importante","Solicitação enviada.")

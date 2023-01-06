@@ -1,5 +1,5 @@
 groupsList = {
-    ["Owner"] = {
+    ["Staff"] = {
         name = "Staff", -- Nome do grupo.
         image = "", -- Imagem do grupo.
         once = true, -- Para poder ter apenas 1 permissão por player

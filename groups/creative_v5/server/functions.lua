@@ -35,7 +35,6 @@ groupMembers = function(members,group,leader)
                     members[tonumber(v.user_id)] = {id = v.user_id, leader = leader}
                 end
             end
-            Wait(500)
         end
         return members
     end
