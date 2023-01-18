@@ -40,6 +40,28 @@ local splitString = function(str,symbol)
 	return tableResult
 end
 
+local groupsLog = function(message,title)
+    local webhook = "" -- Webhook logs aqui
+	if webhook ~= "" then
+		PerformHttpRequest(webhook,function(err,text,headers) end,"POST",json.encode({
+			embeds = {
+				{
+					title = title,
+					thumbnail = {
+					url = serverImg
+					}, 
+					description = message,
+					footer = { 
+						text = "DK Logs - "..os.date("%d/%m/%Y - %H:%M:%S"), 
+						icon_url = serverImg
+					},
+					color = 3092790 
+				}
+			}
+		}),{ ['Content-Type'] = "application/json" })
+	end
+end
+
 groupMembers = function(members,group,leader)
     Wait(3000) -- IMPORTANTE PARA EVITAR SOBRECARGA! Caso queira reduzir/aumentar o tempo para testes, sinta-se livre.
     if group then
@@ -85,7 +107,7 @@ addGroupMember = function(source,target_id,group,groupName)
     if target_id then
         local splited = splitString(group,"//")
         vRP.SetPermission(target_id,splited[1],splited[2])
-        sendLog("**ID:** "..userId(source).." \n **MEMBRO:** "..target_id.." \n **GRUPO:** "..group,"ADICIONOU MEMBRO")
+        groupsLog("**ID:** "..userId(source).." \n **MEMBRO:** "..target_id.." \n **GRUPO:** "..group,"ADICIONOU MEMBRO")
         return true
     end
     return false
@@ -96,20 +118,20 @@ removeGroupMember = function(source,target_id,group,groupName)
         local splited = splitString(group,"//")
         vRP.RemovePermission(target_id,splited[1])
     end
-    sendLog("**ID:** "..userId(source).." \n **MEMBRO:** "..target_id.." \n **GRUPO:** "..group,"REMOVEU MEMBRO")
+    groupsLog("**ID:** "..userId(source).." \n **MEMBRO:** "..target_id.." \n **GRUPO:** "..group,"REMOVEU MEMBRO")
 end
 
 groupsPayment = function(user_id,amount,group)
     local canPay = vRP.PaymentBank(user_id,amount)
     if canPay then
-        sendLog("**ID:** "..user_id.." \n **QUANTIDADE:** "..amount.." \n **GRUPO:** "..group,"ADICIONOU CAIXA")
+        groupsLog("**ID:** "..user_id.." \n **QUANTIDADE:** "..amount.." \n **GRUPO:** "..group,"ADICIONOU CAIXA")
     end
     return canPay
 end
 
 groupsReceive = function(user_id,amount,group)
     vRP.GiveBank(user_id,amount)
-    sendLog("**ID:** "..user_id.." \n **QUANTIDADE:** "..amount.." \n **GRUPO:** "..group,"RETIROU CAIXA")
+    groupsLog("**ID:** "..user_id.." \n **QUANTIDADE:** "..amount.." \n **GRUPO:** "..group,"RETIROU CAIXA")
 end
 
 AddEventHandler("Connect",function(user_id,source,first_spawn)
@@ -119,24 +141,8 @@ AddEventHandler("Disconnect",function(user_id,source,first_spawn)
     TriggerEvent("dk_groups/sendAction","update",user_id,{online = false,lastLogin = os.time()})
 end)
 
-function sendLog(message,title)
-    local webhook = "https://discord.com/api/webhooks/1029804915326996561/dGORgExq6OW31F0Y7xJGRzo7agQuPxoHFytibv9VqaLSPdEm2VSXIsW_nX9r8X_wJQEH"
-	if webhook ~= "" then
-		PerformHttpRequest(webhook,function(err,text,headers) end,"POST",json.encode({
-			embeds = {
-				{
-					title = title,
-					thumbnail = {
-					url = serverImg
-					}, 
-					description = message,
-					footer = { 
-						text = "DK Logs - "..os.date("%d/%m/%Y - %H:%M:%S"), 
-						icon_url = serverImg
-					},
-					color = 3092790 
-				}
-			}
-		}),{ ['Content-Type'] = "application/json" })
-	end
-end
+
+-- -- ADICIONAR EM GROUP
+-- TriggerEvent("dk_groups/sendAction","add",parseInt(args[1]),args[2])
+-- -- ADICIONAR EM UNGROUP
+-- TriggerEvent("dk_groups/sendAction","remove",parseInt(args[1]),args[2])
